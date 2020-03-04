@@ -1,40 +1,47 @@
-﻿// artec.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
-
-
-#include "pch.h"
+﻿// main function for test
 #include <iostream>
-#include <vector>
+#include <algorithm>
+#include <functional>
+#include <numeric>
 
 #include "artec.h"
 
-
 int main()
 {
-	matrix2D a(8, 10);
-	a[2][3] = 5;
-	matrix2D aa(8, 10);
-	aa[2][3] = 7;
-	matrix2D b = a;
-	a[2][3] = 6;
-	std::cout << "a ::" << std::endl;
-	std::cout << a;
-	std::cout << "a :: end" << std::endl;
-	std::cout << "b ::" << std::endl;
-	std::cout << b;
-	std::cout << "b :: end" << std::endl;
-	matrix2D c = std::move(b);
-	std::cout << "c ::" << std::endl;
-	std::cout << c;
-	std::cout << "c :: end" << std::endl;
-	std::cout << "b after mov begin" << std::endl;
-	std::cout << b;
-	std::cout << "b after mov end" << std::endl;
-	matrix2D cc = a + aa;
-	std::cout << cc;
-	std::cout << std::endl;
-	cc += a;
-	std::cout << cc;
-	std::cout << std::endl;
+
+	MAT8_10 * a = new MAT8_10();
+	int i = 0;
+	for (auto iter = a->begin(); iter != a->end(); ++iter) *iter = i++;
+	std::cout << "a matrix:\n" << *a << std::endl;
+
+	MAT8_10  b;
+	i = 100;
+	for (auto iter =b.begin(); iter != b.end(); ++iter) *iter = i++;
+	std::cout << "b matrix:\n" << b << std::endl;
+
+	MAT8_10  c = *a;
+	std::cout << "c copy matrix:\n" << c << std::endl;
+
+	MAT8_10  d = std::move(b);
+	std::cout << "d moved matrix:\n" << d << std::endl;
+	std::cout << "b after move matrix:\n" << b << std::endl;
+
+	std::cout <<"accumulate d=" << std::accumulate(d.begin(),d.end(),0.0) << std::endl << std::endl;
+
+	Matrix <double, 8, 10> f = c + d;
+	std::cout << "f =c + d matrix:\n" << f << std::endl;
+	std::cout <<  '\n';
+
+	Matrix <double, 8, 10+10> e = (c | f);
+	std::cout << "e = (c | f) matrix:\n" << e << std::endl;
+
+	e[15] = 0.0;
+
+	std::cout << "enter matrix 2x2:" << std::endl;
+	Matrix <double, 2, 2> j;
+	std::cin >> j;
+	std::cout <<" j matrix:\n" << j << std::endl;
+
 }
+
 
